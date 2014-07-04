@@ -1,0 +1,8 @@
+message ImgUrl{
+	required string url = 1;
+}
+message User{
+	required int32 uid = 1;
+	optional string uname = 2;
+	repeated ImgUrl imgurl = 3;
+}
