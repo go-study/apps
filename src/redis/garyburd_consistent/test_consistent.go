@@ -12,7 +12,7 @@ import (
 	"log"
 	"net"
 	"net/http"
-	"redis/consistent"
+	"redis/consistent2"
 	"time"
 )
 
