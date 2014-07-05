@@ -8,7 +8,8 @@ import (
 type User struct {
 	//must upper-case ,name or pass is wrong
 	Name string
-	Pass string
+	//or use json tag to export lower-case
+	Pass string `json:"pass"`
 }
 
 func (u *User) getName() string {
