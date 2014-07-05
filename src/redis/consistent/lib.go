@@ -18,17 +18,17 @@
 //
 // Read more about consistent hashing on wikipedia:  http://en.wikipedia.org/wiki/Consistent_hashing
 //
-package main
+package Consistent
 
 import (
 	"errors"
-	"fmt"
-	"time"
+	_ "fmt"
+	_ "time"
 	"hash/crc32"
 	"sort"
 	"strconv"
 	"sync"
-	"math/rand"
+	_ "math/rand"
 )
 
 type uints []uint32
@@ -274,6 +274,7 @@ func sliceContainsMember(set []string, member string) bool {
 	return false
 }
 
+/*
 func main() {
 	c := New()
 	//fmt.Printf("%T", D)
@@ -297,3 +298,4 @@ func main() {
 
 	//log.Println("members size:", len(c.members), "\tcircle size :", len(c.circle), "sortHashes:", len(c.sortedHashes), "scratch:", c.scratch)
 }
+*/
