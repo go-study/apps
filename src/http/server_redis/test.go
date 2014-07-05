@@ -41,6 +41,9 @@ func redisGetHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "/values:%s/", s)
 }
 func redisSetHandler(w http.ResponseWriter, r *http.Request) {
+	value := r.FormValue("value")
+	key := r.FormValue("key")
+	fmt.Fprintf(w, "/set key:%s,value:%s/", key, value)
 	var err error
 	var client *redis.Client
 	client = redis.New()
@@ -50,8 +53,6 @@ func redisSetHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer client.Quit()
-	value := r.FormValue("value")
-	key := r.FormValue("key")
 
 	client.Set(key, value)
 
