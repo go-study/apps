@@ -83,7 +83,10 @@ var (
 	redisPassword = flag.String("redisPassword", "", "")
 )
 var (
-	pools =map[string]*redis.Pool{};
+	//pools =make(map[string]*redis.Pool{});
+	//or
+	//pools =make(map[string]*redis.Pool);
+	pools =make(map[string]*redis.Pool);
 	c = Consistent.New()
 )
 func getPool(key string) *redis.Pool{
