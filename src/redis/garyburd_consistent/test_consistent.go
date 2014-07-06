@@ -93,7 +93,7 @@ var (
 	pools = make(map[string]*redis.Pool)
 	c     = Consistent.New()
 	hash  = make(map[string]string)
-	done  sync.Mutex
+	done  sync.RWMutex
 )
 
 func getPool(key string) *redis.Pool {
