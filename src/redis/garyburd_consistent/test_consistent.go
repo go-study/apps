@@ -13,6 +13,7 @@ import (
 	"net"
 	"net/http"
 	"redis/consistent2"
+	"sync"
 	"time"
 )
 
@@ -43,19 +44,23 @@ func newPool(server, password string) *redis.Pool {
 }
 
 func redisGetHandler(w http.ResponseWriter, r *http.Request) {
-	var err error
 	key := r.FormValue("key")
 
-	conn := getPool(key).Get()
-	defer conn.Close()
-	s, err := conn.Do("GET", key)
-
-	if err != nil {
-		fmt.Fprintf(w, "/values: is empty%s/", s)
+	s, ok := hash[key]
+	if ok {
+		fmt.Fprintf(w, "/111values:%s/", s)
+		return
+	} else {
+		conn := getPool(key).Get()
+		defer conn.Close()
+		s, err := conn.Do("GET", key)
+		if err != nil {
+			fmt.Fprintf(w, "/values3333: is empty%s/", s)
+		}
+		fmt.Fprintf(w, "/2222222values:%s/", s)
 		return
 	}
 
-	fmt.Fprintf(w, "/values:%s/", s)
 }
 func redisSetHandler(w http.ResponseWriter, r *http.Request) {
 	var err error
@@ -63,11 +68,13 @@ func redisSetHandler(w http.ResponseWriter, r *http.Request) {
 	key := r.FormValue("key")
 	fmt.Fprintf(w, "/set key:%s,value:%s/", key, value)
 
-	//conn := pool.Get()
-	//conn := getPool(key);//pool.Get()
 	conn := getPool(key).Get()
 	defer conn.Close()
 	_, err = conn.Do("SET", key, value)
+	//
+	done.Lock()
+	hash[key] = value
+	done.Unlock()
 
 	if err != nil {
 		fmt.Fprintf(w, "/set values: is empty%s/")
@@ -83,15 +90,15 @@ var (
 	redisPassword = flag.String("redisPassword", "", "")
 )
 var (
-	//pools =make(map[string]*redis.Pool{});
-	//or
-	//pools =make(map[string]*redis.Pool);
-	pools =make(map[string]*redis.Pool);
-	c = Consistent.New()
+	pools = make(map[string]*redis.Pool)
+	c     = Consistent.New()
+	hash  = make(map[string]string)
+	done  sync.Mutex
 )
-func getPool(key string) *redis.Pool{
-	key_index , _ := c.Get(key);
-	return pools[key_index];
+
+func getPool(key string) *redis.Pool {
+	key_index, _ := c.Get(key)
+	return pools[key_index]
 }
 func main() {
 
@@ -105,9 +112,9 @@ func main() {
 
 	//flag.Parse()
 	//pool = newPool(*redisServer, *redisPassword)
-	pools["redis-1"]=newPool(*redisServer, *redisPassword);
-	pools["redis-2"]=newPool(*redisServer, *redisPassword);
-	pools["redis-3"]=newPool(*redisServer, *redisPassword);
+	pools["redis-1"] = newPool(*redisServer, *redisPassword)
+	pools["redis-2"] = newPool(*redisServer, *redisPassword)
+	pools["redis-3"] = newPool(*redisServer, *redisPassword)
 
 	http.HandleFunc("/redis/get/", redisGetHandler)
 	http.HandleFunc("/redis/set/", redisSetHandler)
