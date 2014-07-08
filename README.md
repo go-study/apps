@@ -5,6 +5,7 @@ Go-Study ( Go Language / golang ) apps
  > 包括基本的语法，常用的扩展等
 
 资源列表: 
+  - https://github.com/avelino/awesome-go
   - http://go-lang.cat-v.org/pure-go-libs
   
 学习资料:
