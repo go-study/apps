@@ -37,7 +37,21 @@ go_thrift/
 hello/
 
 http/
+  - html_template/
+  - html_template_js/
+  - server_redis/
+  - server_redis_pool/
+  - server_wiki/
 
+redis/
+  - consistent/
+  - consistent2/
+  - garyburd_consistent/
+  - garyburd_pool/
+  - gosexy/
+	
+fastcgi/
+	
 
 socket/
 
