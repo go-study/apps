@@ -37,29 +37,6 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
 	}
 }
 func viewHandler(w http.ResponseWriter, r *http.Request) {
-/*
- val := func(s string) int {
-                v, _ := strconv.Atoi(r.FormValue(s))
-                return v
-        }
-l := coding.Level(val("l"))
-	   v := coding.Version(val("v"))
-	   enc := coding.String(r.FormValue("t"))
-	   m := coding.Mask(val("m"))
-l = coding.Level(l)
-	p, err := coding.NewPlan(v, l, m)
-        if err != nil {
-                panic(err)
-        }
-	cc, err := p.Encode(enc)
-        if err != nil {
-                panic(err)
-        }
-c := &qr.Code{Bitmap: cc.Bitmap, Size: cc.Size, Stride: cc.Stride, Scale: 16}
-   w.Header().Set("Content-Type", "image/png")
-	   w.Header().Set("Cache-Control", "public, max-age=3600")
-	   w.Write(c.PNG())
-*/
 	c, err := qr.Encode(r.FormValue("t"), qr.L)
         if err != nil {
         }
@@ -71,13 +48,6 @@ c := &qr.Code{Bitmap: cc.Bitmap, Size: cc.Size, Stride: cc.Stride, Scale: 16}
 	newImage := resize.Resample(pngdat, image.Rect(0,0,c.Size,c.Size),120,120);
         png.Encode(w,newImage);
         //png.Encode(w,pngdat);
-/*
-	c, err := qr.Encode(r.FormValue("t"), qr.L)
-        if err != nil {
-        }
-	pngdat :=c.PNG();
-        w.Write(pngdat);
-*/
 }
 
 
