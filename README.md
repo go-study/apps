@@ -50,6 +50,11 @@ redis/
   - garyburd_consistent/
   - garyburd_pool/
   - gosexy/
+
+qrcode/ 二维码模块good比bad的性能好约10倍
+  - test/
+  - http_bad/
+  - http_good/
 	
 fastcgi/
 	
@@ -58,4 +63,6 @@ socket/
 
 test/
 
-
+go_c/ Go和c的调用例子
+  - test_func/
+	
